@@ -1,0 +1,12 @@
+.DS_Store
+*.o
+*.p
+*.swp
+*~
+_temp.*
+*.mo
+build
+*.exe
+*.log
+output
+prebuilt/
