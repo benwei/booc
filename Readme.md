@@ -2,14 +2,18 @@
 This is experimental projects which dervied from ooc (object oriented C).
 I used the concepts for ooc to create tools such as command line calc
 
-## ooc
-
-### calc
+## bcalc
 the calculator is a intermidated tool created by parsing experssion
+
+### Syntax
+syntax: [-v]
+ -v: show debug logs
+
+### tests
 
 ```
 $ make tests
-sh ./mytests.sh ooc_calc
+sh ./mytests.sh "bcalc -v"
 OK, origin= 2 * 2 + 10 * 2 + 4 / 8 + 1, result=25.5
 OK, origin= (2 * 2) + 10 * (2 + 4) / 8 + 1, result=12.5
 OK, origin= (2 * -2) + 10 * (2 + 4) / 8 - 1, result=2.5

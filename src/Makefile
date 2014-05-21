@@ -12,8 +12,8 @@ TARGET += bcalc
 all: $(TARGET);
 
 tests: $(TARGET)
-	sh ./tests.sh $(TARGET)
+	sh ./tests.sh "$(TARGET) -v $(TARGS)"
 
 run: $(TARGET)
-	cat tests/file01.txt | ./$(TARGET)
+	cat tests/file01.txt | ./$(TARGET) $(TARGS)
 include ./mk.rules

@@ -8,6 +8,9 @@
 #include <stdlib.h>
 #include "parse.h"
 #include <stdarg.h>
+#include "blog.h"
+
+BLOG_INIT_ENV()
 
 static jmp_buf onError;
 void error (const char * fmt, ...);
@@ -24,6 +27,7 @@ static inline void show_top_banner()
 static inline void calc_line_by_line_from_stdin(void)
 {
     char buf [BUFSIZ] = {0};
+    BLOG("Blog is Enabled.\n");
     while (gets(buf))
     {
         if (scan(buf)) {
@@ -36,9 +40,14 @@ static inline void calc_line_by_line_from_stdin(void)
     }
 }
 
-int main (void)
+int main (int argc, char **argv)
 {
     volatile int errors = 0;
+
+    if (argc > 1 
+            && argv[1][0] == '-' 
+            && argv[1][1] == 'v')
+        verbose++;
 
     show_top_banner();
 

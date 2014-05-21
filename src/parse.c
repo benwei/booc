@@ -13,6 +13,7 @@
 #include <setjmp.h>
 #include <stdlib.h>
 #include "parse.h"
+#include "blog.h"
 
 typedef void * any;
 
@@ -38,7 +39,10 @@ double exec(const void *tree)
 void process(const void *tree)
 {
     double r = exec(tree);
-    printf("process result = %g\n", r);
+    if (verbose > 0) {
+        BLOG("process result = %g\n", r);
+    } else
+        printf("%g\n",r);
 }
 
 void *new(const void *type, ...)
@@ -82,7 +86,7 @@ static double doAdd (const void * tree)
 {
     double r = exec(((struct Bin *) tree) -> left) +
         exec(((struct Bin *) tree) -> right);
-    printf("doAdd => %g\n", r);
+    BLOG("doAdd => %g\n", r);
     return r;
 }
 
@@ -96,7 +100,7 @@ static double doMult (const void * tree)
 {
     double r = exec(((struct Bin *) tree) -> left) *
         exec(((struct Bin *) tree) -> right);
-    printf("doMult => %g\n", r);
+    BLOG("doMult => %g\n", r);
     return r;
 }
 
@@ -178,7 +182,7 @@ static struct Type _Minus = {"m", mkUn, doMinus, freeUn };
 static double doAssign(const void *tree)
 {
     double r = exec(((struct Un *) tree) -> arg);
-    printf("=%g\n", r);
+    BLOG("=%g\n", r);
     return r;
 }
 
@@ -220,7 +224,7 @@ enum tokens scan(const char *buf)
 
     if (buf)
         bp = buf; /* new input line */
-    printf("*bp=%c\n", *bp);
+    BLOG("*bp=%c\n", *bp);
 
     while (isspace(*bp)) ++bp;
     if (isdigit(*bp & 0xff) || *bp == '.') {
@@ -244,7 +248,7 @@ enum tokens scan(const char *buf)
 static void *factor (void)
 {
     void *result = NULL;
-    printf("f-> %c\n", token);
+    BLOG("f-> %c\n", token);
     switch (token) {
         case '+':
             scan(0);
@@ -256,7 +260,7 @@ static void *factor (void)
             error("bad factor: '%c' 0x%x",
                     token, token);
         case NUMBER:
-            printf("factor(number=%g)\n", number);
+            BLOG("factor(number=%g)\n", number);
             result = new(Value, number);
             break;
         case '(':
