@@ -18,6 +18,15 @@ OK, origin= 2 * 2 + 10 * 2 + 4 / 8 + 1, result=25.5
 OK, origin= (2 * 2) + 10 * (2 + 4) / 8 + 1, result=12.5
 OK, origin= (2 * -2) + 10 * (2 + 4) / 8 - 1, result=2.5
 ```
+### run sample
+
+```
+cat tests/file01.txt | ./bcalc
+bcalc version 0.1.1000
+0.5
+20
+990
+```
 
 ## Reference
 * [ooc pdf](http://www.cs.rit.edu/~ats/books/ooc.pdf)
