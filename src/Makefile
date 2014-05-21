@@ -14,4 +14,6 @@ all: $(TARGET);
 tests: $(TARGET)
 	sh ./tests.sh $(TARGET)
 
+run: $(TARGET)
+	cat tests/file01.txt | ./$(TARGET)
 include ./mk.rules
