@@ -6,11 +6,12 @@ CFLAGS = -Wall -std=c99 -pedantic
 CFLAGS += $(INCS)
 LDFLAGS =
 
-TARGET = ooc_calc
+TARGET += bcalc
+.PHONY: tests
 
 all: $(TARGET);
 
 tests: $(TARGET)
-	sh ./mytests.sh $(TARGET)
+	sh ./tests.sh $(TARGET)
 
 include ./mk.rules
