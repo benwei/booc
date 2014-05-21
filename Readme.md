@@ -1,9 +1,11 @@
 ## Brief
-This is a experimental pracice project for ooc (object oriented C).
+This is experimental projects which dervied from ooc (object oriented C).
+I used the concepts for ooc to create tools such as command line calc
 
 ## ooc
 
 ### calc
+the calculator is a intermidated tool created by parsing experssion
 
 ```
 $ make tests
