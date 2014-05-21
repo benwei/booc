@@ -1,5 +1,5 @@
-/* Modifed ooc calculater with parser
- * reference: 
+/* Modifed ooc calculater with ooc parser
+ * reference:
  *  - http://www.cs.rit.edu/~ats/books/ooc.pdf
  *  - http://www.cs.rit.edu/~ats/oop-2001-2/code/13/parse.c
  **/
@@ -21,9 +21,6 @@ static double number;
 
 void error (const char * fmt, ...);
 
-static enum tokens scan(const char *buf);
-static void *sum(void);
-
 struct Type {
     const char *name;
     void *(*new) (va_list ap);
@@ -31,7 +28,7 @@ struct Type {
     void (*delete) (void *tree);
 };
 
-double exec(const void *tree) 
+double exec(const void *tree)
 {
     assert(tree && * (struct Type **) tree
             && (* (struct Type **) tree) -> exec);
@@ -44,8 +41,8 @@ void process(const void *tree)
     printf("process result = %g\n", r);
 }
 
-void *new(const void *type, ...) 
-{ 
+void *new(const void *type, ...)
+{
     va_list ap;
     void *result;
     assert(type && ((struct Type *) type)->new);
@@ -63,7 +60,7 @@ void *new(const void *type, ...)
 void delete (void * tree)
 {
     assert(tree && * (struct Type **) tree
-       && (* (struct Type **) tree) -> delete); 
+       && (* (struct Type **) tree) -> delete);
     (* (struct Type **) tree)->delete(tree);
 }
 
@@ -73,7 +70,7 @@ struct Bin {
 };
 
 static void * mkBin (va_list ap)
-{ 
+{
     struct Bin * node = malloc(sizeof(struct Bin));
     assert(node);
     node->left = va_arg(ap, any);
@@ -143,7 +140,6 @@ static void *mkVal(va_list ap)
     return node;
 }
 
-//static void doVal(const void *tree, int rank, int par)
 static double doVal(const void *tree)
 {
     return ((struct Val *) tree) -> value;
@@ -166,7 +162,6 @@ static void *mkUn (va_list ap)
     return node;
 }
 
-//static double doMinus(const void *tree, int rank, int par)
 static double doMinus(const void *tree)
 {
     return -exec(((struct Un *) tree) -> arg);
@@ -195,8 +190,9 @@ const struct Type *Assign = &_Assign;
 
 static void *factor (void);
 
-/* product : factor { * | / factor } ... */
-
+/*
+ * product : factor { * | / factor } ...
+ */
 void *product(void)
 {
     void *result = factor();
@@ -215,16 +211,11 @@ void *product(void)
         }
         scan(0);
         result = new(type, result, factor());
-    } 
+    }
 }
 
-
-#define ALNUM "ABCDEFGHIJKLMNOPQRSTUVWXYZ" \
-    "abcdefghijklmnopqrstuvwxyz" \
-"_" "0123456789"
-
 enum tokens scan(const char *buf)
-{ 
+{
     static const char *bp;
 
     if (buf)
@@ -242,29 +233,28 @@ enum tokens scan(const char *buf)
         token = *bp ? *bp++ : 0;
 
     return token;
-} 
+}
 
 /*
  *  factor : + factor
  *           - factor
  *           NUMBER
  *           ( sum )
- */  
-
+ */
 static void *factor (void)
-{ 
+{
     void *result = NULL;
     printf("f-> %c\n", token);
-    switch (token) { 
+    switch (token) {
         case '+':
             scan(0);
-            return factor(); 
+            return factor();
         case '-':
             scan(0);
-            return new(Minus, factor()); 
+            return new(Minus, factor());
         default:
-            error("bad factor: '%c' 0x%x", 
-                    token, token); 
+            error("bad factor: '%c' 0x%x",
+                    token, token);
         case NUMBER:
             printf("factor(number=%g)\n", number);
             result = new(Value, number);
@@ -282,7 +272,7 @@ static void *factor (void)
     }
     scan(0);
     return result;
-} 
+}
 
 /* sum : product { + | - product } ... */
 
@@ -293,7 +283,7 @@ void *sum(void)
     for (;;)
     {
         switch (token) {
-            case '+': 
+            case '+':
                 type = Add;
                 break;
             case '-':
@@ -305,38 +295,5 @@ void *sum(void)
         scan(0);
         result = new(type, result, product());
     }
-}
-
-static jmp_buf onError;
-void error (const char * fmt, ...);
-
-int main (void)
-{ 
-    volatile int errors = 0;
-    /* current input symbol */
-    char buf [BUFSIZ] = {0}; 
-    if (setjmp(onError)) 
-        ++errors;
-
-    while (gets(buf))
-    { 
-        printf("buf=%s\n", buf);
-        if (scan(buf)) {
-            void *e = sum();
-            if (token)
-                error("trash after sum");
-            process(e);
-            delete(e);
-        }
-    }
-    return errors > 0;
-}
-
-void error (const char * fmt, ...)
-{
-    va_list ap;
-    va_start(ap, fmt);
-    vfprintf(stderr, fmt, ap), putc('\n', stderr); va_end(ap);
-    longjmp(onError, 1);
 }
 

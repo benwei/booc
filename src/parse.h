@@ -12,5 +12,10 @@ enum tokens {
     ASSIGN='=',
 };
 
+extern enum tokens token;
+void *sum(void);
+void process(const void *tree);
+enum tokens scan(const char *buf);
+void delete (void * tree);
 
 #endif /* _PARSE_H */

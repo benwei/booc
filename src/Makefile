@@ -1,4 +1,4 @@
-CFILES = parse.c
+CFILES = parse.c bcalc.c
 OBJS = $(CFILES:.c=.o)
 INCS =-I.
 CFLAGS = -Wall -std=c99 -pedantic 
