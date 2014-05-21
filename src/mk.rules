@@ -1,0 +1,21 @@
+
+depends ?= $(OBJS:.o=.p)
+
+.c.o:
+#$(CC) -c $(CFLAGS) -o $@ $<
+	$(CC) -MMD -MF ${@:.o=.p} -c $(CFLAGS) -o $@ $<
+
+.cpp.o:
+	$(CXX) -c $(CXXFLAGS) -o $@ $<
+
+$(TARGET): $(OBJS)
+ifeq ($(CXXFILES),)
+	$(CC) -o $@ $^ $(LDFLAGS) 
+else
+	$(CXX) -o $@ $^ $(LDFLAGS) 
+endif
+
+clean:
+	rm -f $(TARGET) *.o $(depends)
+
+-include $(depends)
