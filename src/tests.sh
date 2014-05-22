@@ -7,12 +7,12 @@ target="bcalc"
 fi
 
 docalc() {
-    ret=`echo "${myexp}" | ./${target} | strings | grep "process result =" | sed -e "s/^.*=[ ]*\([0-9.]*\)$/\1/g"`
+    ret=`echo "${myexp}" | ./${target}`
     eval "$1=$ret"
 }
 
 docalc_from_file() {
-    ret=`cat "$1" | ./${target} | strings | grep "process result =" | sed -e "s/^.*=[ ]*\([0-9.]*\)$/\1/g"`
+    ret=`cat "$1" | ./${target}`
     echo "$ret"
 }
 

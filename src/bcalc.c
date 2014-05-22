@@ -43,13 +43,22 @@ static inline void calc_line_by_line_from_stdin(void)
 int main (int argc, char **argv)
 {
     volatile int errors = 0;
+    int i = 1, debug = 0;
+    for (; i < argc ; ++i) {
+        if (argv[i][0] == '-') {
+            switch (argv[i][1]) {
+                case 'v':
+                verbose++;
+                break;
+                case 'd':
+                debug++;
+                break;
+            }
+        }
+    }
 
-    if (argc > 1 
-            && argv[1][0] == '-' 
-            && argv[1][1] == 'v')
-        verbose++;
-
-    show_top_banner();
+    if (debug > 0)
+        show_top_banner();
 
     /* if there are error raised by error() called,
      * programm will back to next line */
