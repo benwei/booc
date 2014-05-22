@@ -12,7 +12,7 @@ TARGET += bcalc
 all: $(TARGET);
 
 tests: $(TARGET)
-	sh ./tests.sh "$(TARGET) $(TARGS)"
+	sh ./tests.sh "$(TARGET)"
 
 run: $(TARGET)
 	cat tests/file01.txt | ./$(TARGET) $(TARGS)

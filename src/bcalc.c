@@ -40,10 +40,11 @@ static inline void calc_line_by_line_from_stdin(void)
     }
 }
 
-int main (int argc, char **argv)
+int debug_level = 0;
+
+static inline int parse_args(int argc, char **argv)
 {
-    volatile int errors = 0;
-    int i = 1, debug = 0;
+    int i = 1;
     for (; i < argc ; ++i) {
         if (argv[i][0] == '-') {
             switch (argv[i][1]) {
@@ -51,13 +52,23 @@ int main (int argc, char **argv)
                 verbose++;
                 break;
                 case 'd':
-                debug++;
+                debug_level++;
                 break;
             }
         }
     }
+    return 0;
+}
 
-    if (debug > 0)
+int main (int argc, char **argv)
+{
+    volatile int errors = 0;
+    int rc = 0;
+    if ((rc = parse_args(argc, argv))<0) {
+        return rc;
+    }
+
+    if (debug_level > 0)
         show_top_banner();
 
     /* if there are error raised by error() called,
