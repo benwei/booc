@@ -28,7 +28,7 @@ static inline void calc_line_by_line_from_stdin(void)
 {
     char buf [BUFSIZ] = {0};
     BLOG("Blog is Enabled.\n");
-    while (gets(buf))
+    while (fgets(buf, BUFSIZ, stdin))
     {
         if (scan(buf)) {
             void *e = sum();
