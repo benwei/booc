@@ -33,3 +33,5 @@ bcalc version 0.1.1000
 * [sample code of parse.c](http://www.cs.rit.edu/~ats/oop-2001-2/code/13/parse.c)
 * [ooc coding site](http://ooc-coding.sourceforge.net/)
 
+## changes
+* 2016-08-12 support travis-ci
