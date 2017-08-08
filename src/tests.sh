@@ -56,4 +56,4 @@ check_single_result "12.5"
 myexp="(2 * -2) + 10 * (2 + 4) / 8 - 1"
 check_single_result "2.5"
 
-check_multiple_result_from_file "tests/file01.txt" "0.5" "20" "990"
+check_multiple_result_from_file "tests/file01.txt" "0.5" "20" "990" "12.6667"
