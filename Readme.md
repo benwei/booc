@@ -1,4 +1,4 @@
-## Brief
+## About this repository [![Build Status](https://travis-ci.org/benwei/booc.svg?branch=master)](https://travis-ci.org/benwei/booc)
 This is experimental projects which dervied from ooc (object oriented C).
 I used the concepts for ooc to create tools such as command line calc
 
